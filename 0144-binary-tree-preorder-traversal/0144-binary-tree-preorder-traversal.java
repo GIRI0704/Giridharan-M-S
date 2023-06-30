@@ -13,20 +13,51 @@
  *     }
  * }
  */
+
+// using recursion
+
+// class Solution {
+//     private List<Integer> list = new ArrayList<>();
+    
+//     public List<Integer> preorderTraversal(TreeNode root) {
+//         tree(root);
+//         return list;
+//     }
+    
+//     public List<Integer> tree(TreeNode root)
+//     {
+//         if(root == null) return list;
+//         list.add(root.val);
+//         tree(root.left);
+//         tree(root.right);
+//         return list;
+//     }
+// }
+
+//using stack
+
 class Solution {
-    private List<Integer> list = new ArrayList<>();
-    
     public List<Integer> preorderTraversal(TreeNode root) {
-        tree(root);
-        return list;
-    }
-    
-    public List<Integer> tree(TreeNode root)
-    {
+        List<Integer> list = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
         if(root == null) return list;
-        list.add(root.val);
-        tree(root.left);
-        tree(root.right);
+        stack.push(root);
+        
+        while(stack.size() > 0)
+        {
+            TreeNode node = stack.pop();
+            list.add(node.val);
+            
+            if(node.right != null)
+            {
+                stack.push(node.right);
+            }
+            if(node.left != null)
+            {
+                stack.push(node.left);
+            }
+        }
+        
         return list;
     }
 }
