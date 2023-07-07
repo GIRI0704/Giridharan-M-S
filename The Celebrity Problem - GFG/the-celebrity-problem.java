@@ -37,36 +37,34 @@ class Solution
     {
     	// code here 
     	Stack<Integer> stack = new Stack<>();
-
-		for(int i = 0; i < n; i++)
-			{
-				stack.push(i);
-			}
-
-		while(stack.size() >= 2)
-			{
-				int a = stack.pop();
-				int b = stack.pop();
-
-				if(M[a][b] == 0)
-				{
-					stack.push(a);
-				}
-				else stack.push(b);
-			}
-
-		int celebrity = stack.pop();
-
-		for(int i = 0; i < n; i++)
-			{
-				if(celebrity != i)
-				{
-					if(M[celebrity][i] == 1 || M[i][celebrity] == 0)
-					{
-						return -1;
-					}
-				}
-			}
-		return celebrity;
+    	for(int i = 0; i < n; i++)
+    	{
+    	    stack.push(i);
+    	}
+    	
+    	while(stack.size() >= 2)
+    	{
+    	    int a = stack.pop(); 
+    	    int b = stack.pop();
+    	    
+    	    if(M[a][b]==0)
+    	    {
+    	        stack.push(a);
+    	    }
+    	    else
+    	    {
+    	        stack.push(b);
+    	    }
+    	}
+    	int celebrity = stack.pop();
+    	
+    	for(int i = 0; i < n; i++)
+    	{
+    	    if(i != celebrity)
+    	    {
+    	        if(M[i][celebrity] == 0 || M[celebrity][i] == 1) return -1;
+    	    }
+    	}
+    	return celebrity;
     }
 }
