@@ -115,17 +115,17 @@ class GfG {
 
 
 //User function Template for Java
-class pair
-	{
-		Node node;
-		int line;
-		pair(Node node, int line)
-		{
-			this.node = node;
-			this.line = line;
-		}
-	}
 
+class pair
+{
+    Node root;
+    int level;
+    pair(int level, Node root)
+    {
+        this.root = root;
+        this.level = level;
+    }
+}
 class Solution
 {
     //Function to return a list containing the bottom view of the given tree.
@@ -133,28 +133,25 @@ class Solution
     {
         // Code here
         ArrayList<Integer> list = new ArrayList<>();
-		TreeMap<Integer, Integer> map = new TreeMap<>();
-		Queue<pair> q = new ArrayDeque<>();
-		q.add(new pair(root, 0));
-		while(q.size() > 0)
-			{
-				pair temp = q.remove();
-				Node cur = temp.node;
-				int num = temp.line;
-				map.put(num, cur.data);
-				if(cur.left != null)
-				{
-					q.add(new pair(cur.left, num-1));
-				}
-				if(cur.right != null)
-				{
-					q.add(new pair(cur.right, num+1));
-				}
-			}
-		for(int i : map.keySet())
-			{
-				list.add(map.get(i));
-			}
-		return list;
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        Queue<pair> q = new ArrayDeque<>();
+        q.add(new pair(0,root));
+        while(q.size() > 0)
+        {
+            pair temp = q.remove();
+            Node currentNode = temp.root;
+            int currentLevel = temp.level;
+            map.put(currentLevel, currentNode.data);
+            if(currentNode.left != null)
+            q.add(new pair(currentLevel-1, currentNode.left));
+            if(currentNode.right != null)
+            q.add(new pair(currentLevel+1, currentNode.right));
+        }
+        
+        for(int i : map.keySet())
+        {
+            list.add(map.get(i));
+        }
+        return list;
     }
 }
