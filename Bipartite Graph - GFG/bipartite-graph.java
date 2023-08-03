@@ -34,7 +34,6 @@ class GFG
 }
 // } Driver Code Ends
 
-
 class Solution
 {
     public boolean dfs(int start, int color[], int V, ArrayList<ArrayList<Integer>>adj)
