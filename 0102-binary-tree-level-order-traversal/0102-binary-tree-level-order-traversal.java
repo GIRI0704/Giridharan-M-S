@@ -15,37 +15,25 @@
  */
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> list = new ArrayList<>();
+        List<List<Integer>> ans = new ArrayList<>();
+        if(root == null) return ans;
         Queue<TreeNode> q = new ArrayDeque<>();
-        
-        if(root == null) return list;
         q.add(root);
         while(q.size() > 0)
         {
-            List<Integer> l = new ArrayList<>();
-            
             int size = q.size();
+            List<Integer> list = new ArrayList<>();
             while(size-->0)
-            {
-            TreeNode node = q.remove();
-            
-            l.add(node.val);
-            
-            if(node.left != null)
-            {
-                q.add(node.left);
+            {   
+                TreeNode temp = q.remove();
+                list.add(temp.val);
+                if(temp.left != null) q.add(temp.left);
+                if(temp.right != null) q.add(temp.right);
             }
-            
-            if(node.right != null)
-            {
-                q.add(node.right);
-            }
-            }
-            list.add(l);
-            
+            ans.add(list);
         }
-        return list;
-        
-        
+        return ans;
     }
 }
+
+        
