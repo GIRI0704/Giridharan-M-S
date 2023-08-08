@@ -115,43 +115,42 @@ class GfG {
 
 
 //User function Template for Java
-
 class pair
 {
-    Node root;
+    Node node;
     int level;
-    pair(int level, Node root)
+    pair(Node node, int level)
     {
-        this.root = root;
+        this.node = node;
         this.level = level;
     }
 }
+
 class Solution
 {
     //Function to return a list containing the bottom view of the given tree.
+    
     public ArrayList <Integer> bottomView(Node root)
     {
         // Code here
-        ArrayList<Integer> list = new ArrayList<>();
         TreeMap<Integer, Integer> map = new TreeMap<>();
         Queue<pair> q = new ArrayDeque<>();
-        q.add(new pair(0,root));
+        ArrayList<Integer> ans = new ArrayList<>();
+        q.add(new pair(root,0));
         while(q.size() > 0)
         {
             pair temp = q.remove();
-            Node currentNode = temp.root;
-            int currentLevel = temp.level;
-            map.put(currentLevel, currentNode.data);
-            if(currentNode.left != null)
-            q.add(new pair(currentLevel-1, currentNode.left));
-            if(currentNode.right != null)
-            q.add(new pair(currentLevel+1, currentNode.right));
+            Node curr = temp.node;
+            int level = temp.level;
+            map.put(level,curr.data);
+            if(curr.left != null) q.add(new pair(curr.left, level-1));
+            if(curr.right != null) q.add(new pair(curr.right, level+1));
         }
         
-        for(int i : map.keySet())
+        for(int key : map.keySet())
         {
-            list.add(map.get(i));
+            ans.add(map.get(key));
         }
-        return list;
+        return ans;
     }
 }
