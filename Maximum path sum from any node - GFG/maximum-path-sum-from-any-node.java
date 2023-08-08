@@ -119,16 +119,16 @@ class Solution
     {
         //your code goes here
         int max[] = new int[1];
-		max[0] = Integer.MIN_VALUE;
-		fun(node, max);
-		return max[0];
+        max[0] = Integer.MIN_VALUE;
+        fun(node, max);
+        return max[0];
     }
     int fun(Node node, int max[])
-	{
-		if(node == null) return 0;
-		int left = Math.max(0, fun(node.left, max));
-		int right = Math.max(0, fun(node.right, max));
-		max[0] = Math.max(max[0], left+right+node.data);
-		return Math.max(left, right)+ node.data;
-	}
+    {
+        if(node == null) return 0;
+        int left = Math.max(0, fun(node.left, max));
+        int right = Math.max(0, fun(node.right, max));
+        max[0] = Math.max(max[0], left+right+node.data);
+        return Math.max(left, right) + node.data;
+    }
 }
