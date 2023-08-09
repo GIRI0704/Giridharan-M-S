@@ -135,15 +135,21 @@ class GfG
     {
         // add your code here;
         if(root == null) return true;
-        else
-        {
-            if(fun(root.left, root.right)) return true;
-            else return false;
-        }
+        if(root.left == null && root.right == null) return true;
+        return fun(root.left, root.right);
+        
     }
-    public static boolean fun(Node left1, Node right1)
-	{
-		if(left1 ==null || right1 == null) return left1==right1;
-		return (left1.data == right1.data) && fun(left1.left,right1.right) && fun(left1.right, right1.left);
-	}
+    
+    public static boolean fun(Node p, Node q)
+    {
+        if(p == null || q == null) return p == q;
+        
+        if(p.data != q.data) return false;
+        
+        boolean left = fun(p.left, q.right);
+        if(!left)  return false;
+        boolean right = fun(p.right, q.left);
+        if(!right)  return false;
+        return true;
+    }
 }
