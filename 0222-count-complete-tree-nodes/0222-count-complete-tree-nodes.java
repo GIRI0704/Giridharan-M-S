@@ -37,7 +37,7 @@ class Solution {
             count++;
             root = root.left;
         }
-        return count++;
+        return count;
     }
     
      public int right(TreeNode root)
@@ -49,6 +49,6 @@ class Solution {
             count++;
             root = root.right;
         }
-        return count++;
+        return count;
     }
 }
