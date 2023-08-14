@@ -14,21 +14,20 @@
  * }
  */
 class Solution {
-    public int index;
     public TreeNode bstFromPreorder(int[] preorder) {
-        index = 0;
-        return counstruct(preorder, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        int index[] = new int[1];
+        index[0] = 0;
+        return helper(preorder,index,Integer.MIN_VALUE,Integer.MAX_VALUE);
     }
-    public TreeNode counstruct(int arr[], int left, int right)
+    
+    public TreeNode helper(int preorder[], int index[], int min, int max)
     {
-        if(index == arr.length) return null;
-        if(arr[index] < left || arr[index] > right) return null;
-        TreeNode node = new TreeNode(arr[index]);
-        index++;
-        
-        node.left = counstruct(arr, left, node.val-1);
-        node.right = counstruct(arr, node.val+1, right);
-        
-        return node;
+        if(index[0] == preorder.length) return null;
+        if(preorder[index[0]] < min || preorder[index[0]] > max) return null;
+        TreeNode root = new TreeNode(preorder[index[0]]);
+        index[0]++;
+        root.left = helper(preorder,index,min,root.val-1);
+        root.right = helper(preorder,index,root.val+1,max);
+        return root;
     }
 }
