@@ -36,39 +36,56 @@ class GFG
 
 // } Driver Code Ends
 
-
+class pair
+{
+    int row;
+    int column;
+    
+    pair(int row, int column)
+    {
+        this.row = row;
+        this.column = column;
+    }
+}
 class Solution
 {
     public int[][] floodFill(int[][] image, int sr, int sc, int newColor)
     {
         // Code here 
-        int ans[][] = image;
-        int color = image[sr][sc];
+        
         int n = image.length;
         int m = image[0].length;
-        int delrow[] = {-1, 0, +1, 0};
-        int delcol[] = {0, +1, 0, -1}; 
-        dfs(sr,sc,delrow,delcol,image,ans,color,newColor,n,m);
-        return ans;
         
-    }
-    
-    public void dfs(int row, int column,
-    int delrow[], int delcol[], int image[][], int ans[][], int color, int newColor, int n, int m)
-    {
-        ans[row][column] = newColor;
+        int initialColor = image[sr][sc];
         
-        for(int i = 0; i < 4; i++)
+        Queue<pair> q = new ArrayDeque<>();
+        
+        q.add(new pair(sr,sc));
+        
+        
+        int row[] = {-1,0,1,0};
+        int column[] = {0,1,0,-1};
+        while(q.size() > 0)
         {
-            int nrow = row + delrow[i];
-            int ncol = column + delcol[i];
+            int r = q.peek().row;
+            int c = q.peek().column;
+            image[r][c] = newColor;
+            q.remove();
             
-            if(nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && image[nrow][ncol] == color &&
-            ans[nrow][ncol] != newColor)
+            for(int i = 0; i < 4; i++)
             {
-                dfs(nrow, ncol, delrow, delcol, image, ans, color, newColor, n ,m);
+                int newrow = r+row[i];
+                int newcol = c+column[i];
+                
+                if(newrow >= 0 && newrow < n && newcol >= 0 && newcol < m
+                && image[newrow][newcol] != newColor && image[newrow][newcol] == initialColor)
+                {
+                    image[newrow][newcol] = newColor;
+                    q.add(new pair(newrow, newcol));
+                }
             }
         }
+        
+        return image;
     }
-    
 }
