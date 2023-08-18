@@ -26,16 +26,51 @@ class GFG {
 }
 // } Driver Code Ends
 
-
+class pair
+{
+    int row;
+    int column;
+    
+    pair(int row, int column)
+    {
+        this.row = row;
+        this.column = column;
+    }
+}
 class Solution {
     // Function to find the number of islands.
+    public void bfs(int row, int column, int n, int m, char grid[][], int visited[][])
+    {
+        Queue<pair> q = new ArrayDeque<>();
+        q.add(new pair(row, column));
+        visited[row][column] = 1;
+        while(q.size() > 0)
+        {
+            int r = q.peek().row;
+            int c = q.peek().column;
+            q.remove();
+            
+            for(int i = -1; i <= 1; i++)
+            {
+                for(int j = -1; j <= 1; j++)
+                {
+                    int newrow = r + i;
+                    int newcol = c + j;
+                    
+                    if(newrow >= 0 && newrow < n && newcol >= 0 && newcol < m && visited[newrow][newcol] == 0 && grid[newrow][newcol] == '1')
+                    {
+                        q.add(new pair(newrow,newcol));
+                        visited[newrow][newcol] = 1;
+                    }
+                }
+            }
+        }
+    }
     public int numIslands(char[][] grid) {
         // Code here
         int n = grid.length;
         int m = grid[0].length;
-        
         int visited[][] = new int[n][m];
-        
         int count = 0;
         
         for(int i = 0; i < n; i++)
@@ -45,54 +80,10 @@ class Solution {
                 if(grid[i][j] == '1' && visited[i][j] == 0)
                 {
                     count++;
-                    dfs(i,j,grid,visited);
+                    bfs(i,j,n,m,grid,visited);
                 }
             }
         }
         return count;
-    }
-    
-    public void dfs(int row, int column, char[][] grid, int visited[][])
-    {
-        Queue<pair> q = new ArrayDeque();
-        
-        q.add(new pair(row, column));
-        int n = grid.length;
-        int m = grid[0].length;
-        
-        while(q.size() > 0)
-        {
-            pair temp = q.remove();
-            int row1 = temp.first;
-            int column1 = temp.second;
-            
-            for(int i = -1; i <= 1; i++)
-            {
-                for(int j = -1; j <= 1; j++)
-                {
-                    int nrow = row1 + i;
-                    int ncolumn = column1 + j;
-                    
-                    if(nrow >= 0 && nrow < n && ncolumn >= 0 && ncolumn < m && 
-                    visited[nrow][ncolumn] == 0 && grid[nrow][ncolumn] == '1')
-                    {
-                        visited[nrow][ncolumn] = 1;
-                        q.add(new pair(nrow, ncolumn));
-                    }
-                }
-            }
-        }
-    }
-    
-    class pair
-    {
-        int first;
-        int second;
-        
-        pair(int first, int second)
-        {
-            this.first = first;
-            this.second = second;
-        }
     }
 }
