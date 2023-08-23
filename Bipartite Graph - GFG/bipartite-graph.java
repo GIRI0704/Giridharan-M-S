@@ -34,27 +34,20 @@ class GFG
 }
 // } Driver Code Ends
 
+
 class Solution
 {
-    public boolean dfs(int start, int color[], int V, ArrayList<ArrayList<Integer>>adj)
+    public boolean dfs(int i, int V, ArrayList<ArrayList<Integer>>adj, int color[], int col)
     {
-        Queue<Integer> q = new ArrayDeque<>();
-        q.add(start);
-        color[start] = 0;
+        color[i] = col;
         
-        while(q.size() > 0)
+        for(int it : adj.get(i))
         {
-            int node = q.remove();
-            
-            for(int i : adj.get(node))
+            if(color[it] == -1)
             {
-                if(color[i] == -1)
-                {
-                    color[i] = 1-color[node];
-                    q.add(i);
-                }
-                else if(color[i] == color[node]) return false;
+                if(dfs(it,V,adj,color,1-col) == false) return false;
             }
+            else if(color[it] == col) return false;
         }
         return true;
     }
@@ -62,13 +55,18 @@ class Solution
     {
         // Code here
         int color[] = new int[V];
-        for(int i = 0; i < V; i++) color[i] = -1;
+        
+        for(int i = 0; i < V; i++)
+        {
+            color[i] = -1;
+        }
         
         for(int i = 0; i < V; i++)
         {
             if(color[i] == -1)
             {
-                if(!dfs(i,color,V,adj)) return false;
+                if(!dfs(i,V,adj,color,0))
+                return false;
             }
         }
         return true;
