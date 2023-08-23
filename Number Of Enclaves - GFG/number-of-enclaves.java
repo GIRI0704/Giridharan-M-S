@@ -11,45 +11,66 @@ import java.io.*;
 
 class GFG {
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
+        BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter out=new PrintWriter(System.out);
+        int T = Integer.parseInt(in.readLine());
         while (T-- > 0) {
-            int n = sc.nextInt();
-            int m = sc.nextInt();
-            int[][] grid = new int[n][m];
-
+            String s[] = in.readLine().trim().split(" ");
+            int n = Integer.parseInt(s[0]);
+            int m = Integer.parseInt(s[1]);
+            int a[][] = new int[n][m];
             for (int i = 0; i < n; i++) {
-
+                s = in.readLine().trim().split(" ");
                 for (int j = 0; j < m; j++) {
-                    grid[i][j] = sc.nextInt();
+                    a[i][j] = Integer.parseInt(s[j]);
                 }
             }
-
             Solution ob = new Solution();
-            int ans = ob.numberOfEnclaves(grid);
-            System.out.println(ans);
+            out.println(ob.numberOfEnclaves(a));
         }
+        out.close();
     }
 }
 // } Driver Code Ends
 
 
 // User function Template for Java
-
-class Solution {
-    void dfs(int row, int column, int delrow[], int delcol[], int grid[][], int visited[][],
-    int n, int m)
+class pair
+{
+    int row;
+    int col;
+    pair(int row, int col)
     {
-        visited[row][column] = 1;
+        this.row = row;
+        this.col = col;
+    }
+}
+class Solution {
+    void bfs(int i, int j, int n, int m, int grid[][], int visited[][])
+    {
+        Queue<pair> q = new ArrayDeque<>();
+        q.add(new pair(i,j));
+        visited[i][j] = 1;
         
-        for(int i = 0; i < 4; i++)
+        int delrow[] = {-1,0,1,0};
+        int delcol[] = {0,1,0,-1};
+        
+        while(q.size() > 0)
         {
-            int r = row + delrow[i];
-            int c = column + delcol[i];
+            int r = q.peek().row;
+            int c = q.peek().col;
             
-            if(r >= 0 && r < n && c >= 0 && c < m && visited[r][c] == 0 && grid[r][c] == 1)
+            q.remove();
+            
+            for(int x = 0; x < 4; x++)
             {
-                dfs(r,c,delrow,delcol,grid,visited,n,m);
+                int row = r+delrow[x];
+                int column = c+delcol[x];
+                if(row >= 0 && row < n && column >= 0 && column < m && grid[row][column] == 1 && visited[row][column] ==0)
+                {
+                    visited[row][column] = 1;
+                    q.add(new pair(row,column));
+                }
             }
         }
     }
@@ -62,45 +83,41 @@ class Solution {
         
         int visited[][] = new int[n][m];
         
-        int delrow[] = {-1,0,1,0};
-        int delcol[] = {0,1,0,-1};
+        for(int i = 0; i < n; i++)
+        {
+            if(grid[i][0] == 1 && visited[i][0] == 0)
+            {
+                bfs(i,0,n,m,grid,visited);
+            }
+            if(grid[i][m-1] == 1 && visited[i][m-1] == 0)
+            {
+                bfs(i,m-1,n,m,grid,visited);
+            }
+        }
         
         for(int j = 0; j < m; j++)
         {
             if(grid[0][j] == 1 && visited[0][j] == 0)
             {
-                dfs(0,j,delrow,delcol,grid,visited,n,m);
+                bfs(0,j,n,m,grid,visited);
             }
-            
             if(grid[n-1][j] == 1 && visited[n-1][j] == 0)
             {
-                dfs(n-1,j,delrow,delcol,grid,visited,n,m);
+                bfs(n-1,j,n,m,grid,visited);
             }
         }
-        
-        for(int i = 0; i < n; i++)
-        {
-            if(grid[i][0] == 1 && visited[i][0] == 0)
-            {
-                dfs(i,0,delrow,delcol,grid,visited,n,m);
-            }
-            
-            if(grid[i][m-1] == 1 && visited[i][m-1] == 0)
-            {
-                dfs(i,m-1,delrow,delcol,grid,visited,n,m);
-            }
-        }
-        
         int count = 0;
         
         for(int i = 0; i < n; i++)
         {
             for(int j = 0; j < m; j++)
             {
-                if(grid[i][j] == 1 && visited[i][j] == 0) count++;
+                if(grid[i][j]==1&&visited[i][j]==0)
+                {
+                    count++;
+                }
             }
         }
         return count;
-        
     }
 }
