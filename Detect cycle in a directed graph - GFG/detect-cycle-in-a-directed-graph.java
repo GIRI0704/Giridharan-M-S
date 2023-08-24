@@ -31,36 +31,79 @@ class DriverClass {
 
 /*Complete the function below*/
 
+                                //   dfs
+// class Solution {
+//     // Function to detect cycle in a directed graph.
+//     public boolean dfs(int i, int V, int path[], int visited[], ArrayList<ArrayList<Integer>> adj)
+//     {
+//         visited[i] = 1;
+//         path[i] = 1;
+        
+//         for(int it : adj.get(i))
+//         {
+//             if(visited[it] == 0)
+//             {
+//                 if(dfs(it,V,path,visited,adj)) return true;
+//             }
+//             else if(path[it] == 1) return true;
+//         }
+//         path[i] = 0;
+//         return false;
+//     }
+//     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+//         // code here
+//         int visited[] = new int[V];
+//         int path[] = new int[V];
+        
+//         for(int i = 0; i < V; i++)
+//         {
+//             if(visited[i] == 0)
+//             {
+//                 if(dfs(i,V,path,visited,adj)) return true;
+//             }
+//         }
+//         return false;
+//     }
+// }
+
+                                    //   bfs
 class Solution {
     // Function to detect cycle in a directed graph.
-    public boolean dfs(int i, int V, int path[], int visited[], ArrayList<ArrayList<Integer>> adj)
-    {
-        visited[i] = 1;
-        path[i] = 1;
-        
-        for(int it : adj.get(i))
-        {
-            if(visited[it] == 0)
-            {
-                if(dfs(it,V,path,visited,adj)) return true;
-            }
-            else if(path[it] == 1) return true;
-        }
-        path[i] = 0;
-        return false;
-    }
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
         // code here
-        int visited[] = new int[V];
-        int path[] = new int[V];
+        int indegree[] = new int[V];
+        for(int i = 0; i < V; i++)
+        {
+            for(int it : adj.get(i))
+            {
+                indegree[it]++;
+            }
+        }
+        
+        Queue<Integer> q = new ArrayDeque<>();
         
         for(int i = 0; i < V; i++)
         {
-            if(visited[i] == 0)
+            if(indegree[i] == 0)
             {
-                if(dfs(i,V,path,visited,adj)) return true;
+                q.add(i);
             }
         }
-        return false;
+        
+        int count = 0;
+        while(q.size() > 0)
+        {
+            int node = q.remove();
+            count++;
+            
+            for(int it : adj.get(node))
+            {
+                indegree[it]--;
+                if(indegree[it] == 0) q.add(it);
+            }
+        }
+        
+        if(count == V) return false;
+        return true;
     }
 }
