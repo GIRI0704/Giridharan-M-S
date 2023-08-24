@@ -61,40 +61,42 @@ class Main {
 class Solution
 {
     //Function to return list containing vertices in Topological order. 
-    static void dfs(int start, int visited[], Stack<Integer> stack, ArrayList<ArrayList<Integer>> adj)
+    static void dfs(int i, int visited[], ArrayList<ArrayList<Integer>> adj, Stack<Integer> stack)
     {
-        visited[start] = 1;
+        visited[i] = 1;
         
-        for(int i : adj.get(start))
+        for(int it : adj.get(i))
         {
-            if(visited[i] == 0)
+            if(visited[it] == 0)
             {
-                dfs(i,visited,stack,adj);
+                dfs(it,visited,adj,stack);
             }
         }
-        stack.push(start);
         
+        stack.push(i);
     }
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
     {
         // add your code here
         int visited[] = new int[V];
         Stack<Integer> stack = new Stack<>();
+        int ans[] = new int[V];
         
         for(int i = 0; i < V; i++)
         {
             if(visited[i] == 0)
             {
-                dfs(i,visited,stack,adj);
+                dfs(i,visited,adj,stack);
             }
         }
-        int ans[] = new int[V];
+        
         int i = 0;
+        
         while(stack.size() > 0)
         {
-            ans[i] = stack.pop();
-            i++;
+            ans[i++] = stack.pop();
         }
+        
         return ans;
     }
 }
