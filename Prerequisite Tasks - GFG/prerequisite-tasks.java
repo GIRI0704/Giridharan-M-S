@@ -46,45 +46,52 @@ class Solution {
         // Your Code goes here
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
         
+        int indegree[] = new int[N];
         for(int i = 0; i < N; i++)
         {
             adj.add(new ArrayList<>());
         }
         
-        for(int i = 0; i < P; i++)
+        int n = prerequisites.length;
+        
+        for(int i = 0; i < n; i++)
         {
-            adj.get(prerequisites[i][0]).add(prerequisites[i][1]);
+            int a = prerequisites[i][0];
+            int b = prerequisites[i][1];
+            adj.get(a).add(b);
         }
         
-        int degree[] = new int[N];
         for(int i = 0; i < N; i++)
         {
-            for(int j : adj.get(i))
+            for(int it : adj.get(i))
             {
-                degree[j]++;
+                indegree[it]++;
             }
         }
         
         Queue<Integer> q = new ArrayDeque<>();
         for(int i = 0; i < N; i++)
         {
-            if(degree[i] == 0) q.add(i);
-        }
-        int count = 0;
-        while(q.size() > 0)
-        {
-            int node = q.remove();
-            count++;
-            
-            for(int j : adj.get(node))
-            {
-                degree[j]--;
-                if(degree[j] == 0) q.add(j);
-            }
+            if(indegree[i] == 0) q.add(i);
         }
         
-        if(count == degree.length) return true;
-        return false;
+        int count = 0;
+        
+        while(q.size() > 0)
+         {
+             int node = q.remove();
+             count++;
+             
+             for(int it : adj.get(node))
+             {
+                 indegree[it]--;
+                 if(indegree[it] == 0) q.add(it);
+             }
+         }
+         
+         if(count == N) return true;
+         return false;
+        
     }
     
 }
