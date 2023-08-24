@@ -44,45 +44,40 @@ class GFG {
 class Solution {
 
     List<Integer> eventualSafeNodes(int V, List<List<Integer>> adj) {
-
         // Your code here
-        List<List<Integer>> adjrev = new ArrayList<>();
-        
-        for(int i = 0; i < V; i++)
-        {
-            adjrev.add(new ArrayList<>());
-        }
-        
-        int degree[] = new int[V];
-        //reverse the adj list;
-        
-        for(int i = 0; i < V; i++)
-        {
-            for(int j : adj.get(i))
-            {
-                adjrev.get(j).add(i);
-                degree[i]++;
-            }
-        }
-        Queue<Integer> q = new ArrayDeque<>();
+        int visited[] = new int[V];
+        int path[] = new int[V];
+        int check[] = new int[V];
         List<Integer> list = new ArrayList<>();
         for(int i = 0; i < V; i++)
         {
-            if(degree[i] == 0) q.add(i);
-        }
-        
-        while(q.size() > 0)
-        {
-            int node = q.remove();
-            list.add(node);
-            
-            for(int i : adjrev.get(node))
+            if(visited[i] == 0)
             {
-                degree[i]--;
-                if(degree[i] == 0) q.add(i);
+                dfs(i,visited,check,path,adj);
             }
         }
-        Collections.sort(list);
+        for(int i = 0; i < V; i++)
+        {
+            if(check[i] == 1) list.add(i);
+        }
         return list;
+    }
+    
+    boolean dfs(int i, int visited[],int check[],int path[],List<List<Integer>> adj)
+    {
+        path[i] = 1;
+        visited[i] = 1;
+        
+        for(int it : adj.get(i))
+        {
+            if(visited[it] == 0)
+            {
+                if(dfs(it,visited,check,path,adj)) return true;
+            }
+            else if(path[it] == 1) return true;
+        }
+        check[i] = 1;
+        path[i] = 0;
+        return false;
     }
 }
