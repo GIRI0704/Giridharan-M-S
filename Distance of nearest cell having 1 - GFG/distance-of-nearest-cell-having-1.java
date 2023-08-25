@@ -33,7 +33,19 @@ class GFG
 }
 // } Driver Code Ends
 
-
+class pair
+{
+    int row;
+    int column;
+    int step;
+    
+    pair(int row, int column, int step)
+    {
+        this.row = row;
+        this.column = column;
+        this.step = step;
+    }
+}
 class Solution
 {
     //Function to find distance of nearest 1 in the grid for each cell.
@@ -41,54 +53,52 @@ class Solution
     {
         // Code here
         int n = grid.length;
-		int m = grid[0].length;
-		int ans [][] = new int[n][m];
-		int visited[][] = new int[n][m];
-		Queue<pair> q = new ArrayDeque<>();
-		for(int i = 0; i < n; i++)
-			{
-				for(int j =0; j < m; j++)
-					{
-						if(grid[i][j] == 1)
-						{
-							q.add(new pair(i,j,0));
-						}
-					}
-			}
-		int delrow[] = {-1,0,1,0};
-		int delcol[] = {0,1,0,-1};
-		while(q.size() > 0)
-			{
-				int row = q.peek().row;
-				int column = q.peek().column;
-				int step = q.peek().step;
-
-				q.remove();
-
-				for(int i = 0; i < 4; i++)
-					{
-						int r = row+delrow[i];
-						int c = column+delcol[i];
-						if(r >= 0 && r < n && c >= 0 && c < m && visited[r][c] == 0 && grid[r][c] == 0)
-						{
-							visited[r][c] = 1;
-							ans[r][c] = step+1;
-							q.add(new pair(r,c,step+1));
-						}
-					}			
-			}
-		return ans;
+        int m = grid[0].length;
+        
+        int ans[][] = new int[n][m];
+        
+        Queue<pair> q = new ArrayDeque<>();
+        
+        int visited[][] = new int[n][m];
+        
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                if(grid[i][j] == 1)
+                {
+                    ans[i][j] = 0;
+                    q.add(new pair(i,j,0));
+                    visited[i][j] = 1;
+                }
+                else 
+                visited[i][j] = 0;
+            }
+        }
+        
+        int delrow[] = {-1,0,1,0};
+        int delcol[] = {0,1,0,-1};
+        while(q.size() > 0)
+        {
+            int r = q.peek().row;
+            int c = q.peek().column;
+            int step = q.peek().step;
+            ans[r][c] = step;
+            q.remove();
+            for(int i = 0; i < 4; i++)
+            {
+                int row = r + delrow[i];
+                int col = c + delcol[i];
+                
+                if(row >= 0 && row < n && col >= 0 && col < m && grid[row][col] == 0 && visited[row][col]==0)
+                {
+                    visited[row][col] = 1;
+                    q.add(new pair(row,col,step+1));
+                }
+            }
+        }
+        
+        return ans;
+        
     }
 }
-class pair
-	{
-		int row;
-		int column;
-		int step;
-		pair(int row, int column, int step)
-		{
-			this.row = row;
-			this.column = column;
-			this.step = step;
-		}
-	}
