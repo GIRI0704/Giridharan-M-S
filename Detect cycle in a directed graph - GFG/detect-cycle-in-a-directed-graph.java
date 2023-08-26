@@ -29,42 +29,44 @@ class DriverClass {
 // } Driver Code Ends
 
 
+
+
 /*Complete the function below*/
 
                                 //   dfs
-class Solution {
-    // Function to detect cycle in a directed graph.
-    public boolean dfs(int i, int V, int path[], int visited[], ArrayList<ArrayList<Integer>> adj)
-    {
-        visited[i] = 1;
-        path[i] = 1;
+// class Solution {
+//     // Function to detect cycle in a directed graph.
+//     public boolean dfs(int i, int V, int path[], int visited[], ArrayList<ArrayList<Integer>> adj)
+//     {
+//         visited[i] = 1;
+//         path[i] = 1;
         
-        for(int it : adj.get(i))
-        {
-            if(visited[it] == 0)
-            {
-                if(dfs(it,V,path,visited,adj)) return true;
-            }
-            else if(path[it] == 1) return true;
-        }
-        path[i] = 0;
-        return false;
-    }
-    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
-        // code here
-        int visited[] = new int[V];
-        int path[] = new int[V];
+//         for(int it : adj.get(i))
+//         {
+//             if(visited[it] == 0)
+//             {
+//                 if(dfs(it,V,path,visited,adj)) return true;
+//             }
+//             else if(path[it] == 1) return true;
+//         }
+//         path[i] = 0;
+//         return false;
+//     }
+//     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+//         // code here
+//         int visited[] = new int[V];
+//         int path[] = new int[V];
         
-        for(int i = 0; i < V; i++)
-        {
-            if(visited[i] == 0)
-            {
-                if(dfs(i,V,path,visited,adj)) return true;
-            }
-        }
-        return false;
-    }
-}
+//         for(int i = 0; i < V; i++)
+//         {
+//             if(visited[i] == 0)
+//             {
+//                 if(dfs(i,V,path,visited,adj)) return true;
+//             }
+//         }
+//         return false;
+//     }
+// }
 
                                     //   bfs
 class Solution {
