@@ -1,46 +1,38 @@
 class Solution {
-    public int maxDistance(int[] a, int cows) {
+    public int maxDistance(int[] position, int m) {
+        Arrays.sort(position);
         
-        Arrays.sort(a);
-		int start = 1;
-		int end = a[a.length-1] - a[0];
-
-		// for(int i = 0; i < a.length-1; i++)
-		// 	{
-		// 		int diff = a[i+1] - a[i];
-		// 		start = Math.min(diff,start);
-		// 	}
-        
-        // start
-
-		int ans = -1;
-
-		while(start <= end)
-			{
-				int mid = (start+end) / 2;
-				if(ispossible(a,cows,mid))
-				{
-					ans = mid;
-					start = mid+1;
-				}
-				else end = mid-1;
-			}
-		return ans;
-   
+        int start = 1;
+        int end = position[position.length-1] - position[0];
+        int ans = -1;
+        while(start <= end)
+        {
+            int mid = (start+end) / 2;
+            
+            if(ispossible(position,m,mid))
+            {
+                ans = mid;
+                start = mid+1;
+            }
+            else end = mid-1;
+        }
+        return ans;
     }
-    public static boolean ispossible(int a[], int cows, int limit)
-	{
-		int NoOfCowspaced = 1;
-		int LastCowPlaced = a[0];
-
-		for(int i = 1; i < a.length; i++)
-			{
-				if(a[i]-LastCowPlaced >= limit)
-				{
-					NoOfCowspaced++;
-					LastCowPlaced = a[i];
-				}
-			}
-		return NoOfCowspaced >= cows;
-	}
+    
+    public boolean ispossible(int position[], int m, int mid)
+    {
+        int noofcows = 1;
+        int pos = position[0];
+        
+        for(int i = 1; i < position.length; i++)
+        {
+            if(position[i]-pos >= mid)
+            {
+                noofcows++;
+                pos = position[i];
+            }
+        }
+        
+        return noofcows >= m;
+    }
 }
