@@ -13,20 +13,55 @@
  *     }
  * }
  */
+
+class  bst{
+    Stack<TreeNode> st=new Stack<>();
+    boolean c=true;
+   public bst(TreeNode root,boolean c1){
+        c=c1;
+        push(root);
+    }
+    public int next(){
+        TreeNode temp=st.pop();
+        if(c==false){
+            push(temp.right);
+            
+        }
+        else{
+            push(temp.left);
+        }
+        return temp.val;
+    }
+   public void push(TreeNode root ){
+        while(root!=null){
+            st.push(root);
+            if(c==false){
+                root=root.left;
+            }
+            else{
+                root=root.right;
+            }
+        }
+    }
+}
 class Solution {
     public boolean findTarget(TreeNode root, int k) {
-        HashSet<Integer> set = new HashSet<>();
-		return fun(root, k, set);
+     if(root==null)return false;
+     bst l=new bst(root,false);
+     bst r=new bst(root,true);
+     int i=l.next();
+     int j=r.next();
+     while(i<j){
+         if(i+j == k){
+             return true;
+         }
+         if(i+j < k){
+             i=l.next();
+         }
+         else{
+             j=r.next();
+         }
+     }
+        return false;
     }
-    
-    public boolean fun(TreeNode root, int k, HashSet<Integer> set)
-	{
-		if(root == null) return false;
-		int num = root.val;
-		if(set.contains(k-num)) return true;
-		else set.add(num);
-		if(fun(root.left, k, set)) return true;
-		if(fun(root.right, k, set)) return true;
-		return false;
-	}
 }
