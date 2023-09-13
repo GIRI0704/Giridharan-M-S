@@ -33,7 +33,6 @@ class Solution {
                 }
                 
                 right = Math.max(right, arr[j]);
-                
                 j--;
             }
         }
