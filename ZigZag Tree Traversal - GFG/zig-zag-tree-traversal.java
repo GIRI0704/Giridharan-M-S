@@ -108,6 +108,8 @@ public class GFG2
 // } Driver Code Ends
 
 
+
+
 //User function Template for Java
 
 /*class Node
@@ -127,7 +129,7 @@ class GFG
 	ArrayList<Integer> zigZagTraversal(Node root)
 	{
 	    
-	    ArrayList<Integer> ans=new ArrayList<>();
+	    ArrayList<Integer> ans = new ArrayList<>();
 	    Queue<Node>q=new LinkedList<>();
 	    q.add(root);
 	    int n=0;
