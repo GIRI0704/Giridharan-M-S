@@ -9,6 +9,7 @@
 class Solution {
     public void deleteNode(ListNode Node) {
         
+        
         ListNode newnode = Node.next;
         
         Node.val = newnode.val;
