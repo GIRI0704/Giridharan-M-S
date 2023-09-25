@@ -9,21 +9,6 @@
  * }
  */
 class Solution {
-    public ListNode reverse(ListNode head) {
-        ListNode current = head;
-        ListNode next = null;
-        ListNode pre = null;
-
-        while (current != null) {
-            next = current.next;
-            current.next = pre;
-            pre = current;
-            current = next;
-        }
-
-        return pre;
-    }
-
     public ListNode reverseKGroup(ListNode head, int k) {
         ListNode dummy = new ListNode(0);
         dummy.next = head;
