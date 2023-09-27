@@ -1,33 +1,27 @@
 class Solution {
     public int[][] merge(int[][] intervals) {
+        if(intervals.length == 0) return new int[0][1];
         
-        if (intervals == null || intervals.length == 0) {
-            return new int[0][1];
-        }
-
-        // Sort the intervals based on their start times
-        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
-
-        List<int[]> mergedIntervals = new ArrayList<>();
-        int[] currentInterval = intervals[0];
-
-        for (int i = 1; i < intervals.length; i++) {
-            int[] nextInterval = intervals[i];
-
-            // Check if the current interval overlaps with the next one
-            if (currentInterval[1] >= nextInterval[0]) {
-                // Merge the intervals
-                currentInterval[1] = Math.max(currentInterval[1], nextInterval[1]);
-            } else {
-                // If there is no overlap, add the current interval to the result
-                mergedIntervals.add(currentInterval);
-                currentInterval = nextInterval;
+        Arrays.sort(intervals,(a,b) -> a[0]-b[0]);
+        int current[] =  intervals[0];
+        List<int[]> list = new ArrayList<>();
+        for(int i = 1; i < intervals.length; i++)
+        {
+            int interval[] = intervals[i];
+            
+            if(current[1] >= interval[0])
+            {
+                current[1] = Math.max(current[1],interval[1]);
+            }
+            else
+            {
+                list.add(current);
+                current = interval;
             }
         }
-
-        // Add the last merged interval
-        mergedIntervals.add(currentInterval);
-
-        return mergedIntervals.toArray(new int[0][1]);
+        list.add(current);
+        
+        return list.toArray(new int[0][1]);
+        
     }
 }
