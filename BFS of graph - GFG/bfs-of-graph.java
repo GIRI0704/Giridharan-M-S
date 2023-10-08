@@ -62,7 +62,6 @@ class Solution {
                     q.add(i);
                 }
             }
-            
         }
         return ans;
     }
