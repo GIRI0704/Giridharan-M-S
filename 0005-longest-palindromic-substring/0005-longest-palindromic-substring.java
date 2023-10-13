@@ -27,7 +27,6 @@ class Solution {
         // Extract and return the longest palindromic substring
         return s.substring(start, end + 1);
     }
-    
     // Helper function to expand around the center of the palindrome
     private int expandAroundCenter(String s, int left, int right) {
         while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
