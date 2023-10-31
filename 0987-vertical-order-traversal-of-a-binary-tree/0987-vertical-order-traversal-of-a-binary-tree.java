@@ -13,65 +13,65 @@
  *     }
  * }
  */
-
-class pair
-{
-    TreeNode root;
-    int level;
-    pair(TreeNode root, int level)
-    {
-        this.root = root;
-       this.level = level;
-  }
- }
 class Solution {
-    public void findlevels(TreeNode root, int pos, int left[], int right[])
-    {
-        if(root == null) return;
-        left[0] = Math.min(left[0],pos);
-        right[0] = Math.max(right[0],pos);
-        findlevels(root.left, pos-1, left, right);
-        findlevels(root.right, pos+1, left, right);
+     class pair{
+        TreeNode node;
+        int level;
+        pair(TreeNode node,int level){
+            this.node=node;
+            this.level=level;
+        }
     }
+   
+	void find (TreeNode root,int pos, int arr[],int arr1[]){
+        if(root==null)return;
+        arr[0]=Math.min(arr[0],pos);
+        arr1[0]=Math.max(arr1[0],pos);
+        find(root.left,pos-1,arr,arr1);
+        find(root.right,pos+1,arr,arr1);
+    } 
+
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        if (root == null) return new ArrayList<>();
-        List<List<Integer>> list = new ArrayList<>();
-        int left[] = new int[1];
-        int right[] = new int[1];
-
-        findlevels(root, 0, left, right);
-
-        int nolevels = right[0] - left[0] + 1;
-
-        for (int i = 0; i < nolevels; i++) {
+      
+        if(root==null)return new ArrayList<>();
+        int arr[]=new int[1];
+        int arr1[]=new int[1];
+        find(root,0,arr,arr1);
+        List<List<Integer>> list=new ArrayList<>();
+        int l=arr[0];
+        int r=arr1[0];
+        int nol=r-l+1;
+        int st=-l;
+        for(int i=0;i<nol;i++){
             list.add(new ArrayList<>());
         }
-        int start = Math.abs(left[0]);
-        Queue<pair> q = new ArrayDeque<>();
-        q.add(new pair(root, start));
-
-        while (q.size() > 0) {
-            int size = q.size();
-            Map<Integer, List<Integer>> levelMap = new HashMap<>();
-            while (size-- > 0) {
-                pair temp = q.remove();
-                if(!levelMap.containsKey(temp.level))
-                    levelMap.put(temp.level,new ArrayList<>());
-                List<Integer> templist = levelMap.get(temp.level);
-                templist.add(temp.root.val);
-                levelMap.put(temp.level,templist);
-                // levelMap.putIfAbsent(temp.level, new ArrayList<>());
-                // levelMap.get(temp.level).add(temp.root.val);
-                if (temp.root.left != null) q.add(new pair(temp.root.left, temp.level - 1));
-                if (temp.root.right != null) q.add(new pair(temp.root.right, temp.level + 1));
+      //  PriorityQueue<>((a, b) -> a.row - b.row))
+        PriorityQueue<pair> q=new PriorityQueue<>((a,b)->{
+            return a.node.val-b.node.val;
+        });
+        
+        q.add(new pair(root,st));
+        while(q.size()>0){
+            int s=q.size();
+             List<pair> temp=new ArrayList<>();
+        
+            while(s-- >0){
+               
+                pair p=q.remove();
+                list.get(p.level).add(p.node.val);
+                if(p.node.left!=null){
+                    temp.add(new pair(p.node.left,p.level-1));
+                }
+                if(p.node.right!=null){
+                    temp.add(new pair(p.node.right,p.level+1));
+                }
             }
-            for (int level : levelMap.keySet()) {
-                List<Integer> vals = levelMap.get(level);
-                Collections.sort(vals);
-                list.get(level).addAll(vals);
+            for(pair h:temp){
+                q.add(h);
             }
         }
-
+       
         return list;
+
     }
 }
