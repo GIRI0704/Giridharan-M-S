@@ -55,8 +55,13 @@ class Solution {
             Map<Integer, List<Integer>> levelMap = new HashMap<>();
             while (size-- > 0) {
                 pair temp = q.remove();
-                levelMap.putIfAbsent(temp.level, new ArrayList<>());
-                levelMap.get(temp.level).add(temp.root.val);
+                if(!levelMap.containsKey(temp.level))
+                    levelMap.put(temp.level,new ArrayList<>());
+                List<Integer> templist = levelMap.get(temp.level);
+                templist.add(temp.root.val);
+                levelMap.put(temp.level,templist);
+                // levelMap.putIfAbsent(temp.level, new ArrayList<>());
+                // levelMap.get(temp.level).add(temp.root.val);
                 if (temp.root.left != null) q.add(new pair(temp.root.left, temp.level - 1));
                 if (temp.root.right != null) q.add(new pair(temp.root.right, temp.level + 1));
             }
