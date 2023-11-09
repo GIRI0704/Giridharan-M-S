@@ -30,7 +30,7 @@ class Solution {
         while(!q.isEmpty()) {
             Node rightNode = null;
             for(int i = q.size(); i > 0; i--) {
-                Node curr = q.poll();
+                Node curr = q.remove();
                 curr.next = rightNode;
                 rightNode = curr;
                 if(curr.right != null) {
