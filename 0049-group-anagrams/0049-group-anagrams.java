@@ -1,52 +1,51 @@
 class Solution {
-    
-    public String code(String word)
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String,List<String>> map = new HashMap<>();
+        for(String str : strs)
+        {
+            String code = generateCode(str);
+            if(map.containsKey(code))
+            {
+                List<String> result = map.get(code);
+                result.add(str);
+                map.put(code, result);
+            }
+            else
+            {
+                List<String> result = new ArrayList<>();
+                result.add(str);
+                map.put(code,result);
+            }
+        }
+        List<List<String>> result = new ArrayList<>();
+        for(String key : map.keySet())
+        {
+            List<String> list = map.get(key);
+            result.add(list);
+        }
+        return result;
+        
+    }
+    public String generateCode(String str)
     {
         int arr[] = new int[26];
-        for(int i = 0; i < word.length(); i++)
+        
+        for(int i = 0; i < str.length(); i++)
         {
-            char ch = word.charAt(i);
+            char ch = str.charAt(i);
             arr[ch-'a']++;
         }
+        
         StringBuilder sb = new StringBuilder();
-        for(int i = 0 ; i < 26; i++)
+        for(int i = 0; i < arr.length; i++)
         {
             if(arr[i] > 0)
             {
-                sb.append((char)('a'+i));
+                char ch = (char) ('a'+i);
+                sb.append(ch);
                 sb.append(arr[i]);
             }
         }
         return sb.toString();
-    }
-    public List<List<String>> groupAnagrams(String[] strs) {
-        
-        HashMap<String, List<String>> map = new HashMap<>();
-        List<List<String>> ans = new ArrayList<>();
-        for(String word : strs)
-        {
-            String code = code(word);
-             
-            if(map.containsKey(code))
-            {
-                List<String> list = map.get(code);
-                list.add(word);
-                map.put(code, list);
-            }
-            else
-            {
-                List<String> list = new ArrayList<>();
-                list.add(word);
-                map.put(code, list);
-            }
-        }
-        
-        for(String code : map.keySet())
-        {
-            List<String> list = map.get(code);
-            ans.add(list);
-        }
-        
-        return ans;
     }
 }
